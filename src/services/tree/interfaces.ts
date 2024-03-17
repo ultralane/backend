@@ -23,6 +23,17 @@ export const Tree = z.object({
   updatedAt: z.string(),
 });
 
+export const InSend = z.object({
+  proof: z.string(),
+  publicInputs: z.array(z.string()),
+  chainId: z.string(),
+  withdrawAddress: address,
+  nullifiers: z.array(hexString),
+});
+export const OutSend = z.object({
+  txHash: hexString,
+});
+
 export type ITree = z.infer<typeof Tree>;
 
 export const OutCollect = z.object({
@@ -34,3 +45,9 @@ export type OutCollect = z.infer<typeof OutCollect>;
 export type InCollect = {
   body: z.infer<typeof InCollect>;
 };
+
+export type InSend = {
+  body: z.infer<typeof InSend>;
+};
+
+export type OutSend = z.infer<typeof OutSend>;

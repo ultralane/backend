@@ -9,3 +9,10 @@ export const Collect = {
   handler: Controller.Collect,
   schema: Schemas.Collect,
 } as RouteOptions;
+
+export const Send = {
+  method: "POST",
+  url: "/api/send",
+  handler: Controller.Send,
+  schema: Schemas.Send,
+} as RouteOptions;
