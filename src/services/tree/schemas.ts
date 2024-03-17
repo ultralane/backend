@@ -1,4 +1,4 @@
-import { InHeaders } from "../auth/interfaces";
+import { InHeaders } from "./interfaces";
 import { InCollect, InSend, OutCollect, OutSend } from "./interfaces";
 
 export const Collect = {

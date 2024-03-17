@@ -51,3 +51,8 @@ export type InSend = {
 };
 
 export type OutSend = z.infer<typeof OutSend>;
+
+export const InHeaders = z.object({
+  authorization: z.string().optional(),
+});
+
