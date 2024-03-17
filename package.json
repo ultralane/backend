@@ -16,7 +16,7 @@
     "@fastify/jwt": "^8.0.0",
     "@hapi/boom": "^10.0.1",
     "@ultralane/circuits": "^0.1.2",
-    "@ultralane/sdk": "^0.1.6",
+    "@ultralane/sdk": "^0.1.10",
     "bcryptjs": "^2.4.3",
     "dotenv": "^16.4.5",
     "ethers": "^6.11.1",

@@ -18,6 +18,9 @@ const getRPCUrl = (chainId: string) => {
     case "11155111":
       rpc_url_base = `https://eth-sepolia.g.alchemy.com/v2/`;
       break;
+    case "80001":
+      rpc_url_base = `https://polygon-mumbai.g.alchemy.com/v2/`;
+      break;
   }
   return `${rpc_url_base}${ALCHEMY_API_KEY}`;
 };
@@ -45,7 +48,6 @@ export const Send: ICtrl<OutSend, InSend> = async (req) => {
     }
   }
 
-
   let status = await Transaction.verify({ publicInputs, proof }, 16);
   if (status) {
     let provider = new JsonRpcProvider(rpc);
@@ -55,6 +57,7 @@ export const Send: ICtrl<OutSend, InSend> = async (req) => {
     if (num.isNeg()) {
       num = num.neg();
     }
+
     let tx = await ultralane.crosschainTransact(
       body.withdrawAddress,
       num.hex(),
