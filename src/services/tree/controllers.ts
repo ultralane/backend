@@ -2,6 +2,7 @@ import { ICtrl } from "../../types/controller";
 import { InCollect, InSend, OutCollect, OutSend } from "./interfaces";
 import { AddressLike, JsonRpcProvider, Wallet } from "ethers";
 import { Field, Transaction, getContracts } from "@ultralane/sdk";
+import { Nullifiers } from "./models";
 
 const ALCHEMY_API_KEY = process.env.ALCHEMY_API_KEY;
 
@@ -35,7 +36,16 @@ export const Send: ICtrl<OutSend, InSend> = async (req) => {
   let publicInputs = body.publicInputs;
   let proof = new Uint8Array(JSON.parse(body.proof));
   let rpc = getRPCUrl(body.chainId);
-  console.log({ publicInputs, proof, rpc });
+  // check if nullifiers are present in db
+  for (let nullifier of body.nullifiers) {
+    // check if nullifier exists
+    let res = await Nullifiers.findOne({ element: nullifier });
+    if (res) {
+      return { txHash: "0x" };
+    }
+  }
+
+
   let status = await Transaction.verify({ publicInputs, proof }, 16);
   if (status) {
     let provider = new JsonRpcProvider(rpc);
@@ -48,9 +58,13 @@ export const Send: ICtrl<OutSend, InSend> = async (req) => {
     let tx = await ultralane.crosschainTransact(
       body.withdrawAddress,
       num.hex(),
-      [body.nullifiers[0], body.nullifiers[0]],
+      body.nullifiers,
       publicInputs[5]
     );
+    // store nullifiers in db
+    for (let nullifier of body.nullifiers) {
+      await Nullifiers.create({ element: nullifier });
+    }
     return { txHash: tx.hash };
   }
   return { txHash: "0x" };

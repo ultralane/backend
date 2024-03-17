@@ -16,7 +16,7 @@ export const InCollect = z.object({
   chainId: z.string(),
 });
 
-export const Tree = z.object({
+export const Nullifiers = z.object({
   id: z.string(),
   element: hexString,
   createdAt: z.string(),
@@ -34,7 +34,7 @@ export const OutSend = z.object({
   txHash: hexString,
 });
 
-export type ITree = z.infer<typeof Tree>;
+export type INullifiers = z.infer<typeof Nullifiers>;
 
 export const OutCollect = z.object({
   txHash: hexString,
